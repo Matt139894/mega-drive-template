@@ -1,0 +1,37 @@
+name: Build with SGDK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Download SGDK
+      uses: i3h/download-release-asset@v1.3.3
+      with:
+        owner: Stephane-D
+        repo: SGDK
+        tag: v2.11
+        file: sgdk211.7z
+
+    - name: Extract SGDK
+      uses: DuckSoft/extract-7z-action@v1.0
+      with:
+        pathSource: sgdk211.7z
+        pathTarget: sgdk
+        
+    - name: Build ROM
+      run: sgdk\bin\make -s -f sgdk\makefile.gen
+
+    - name: Upload ROM
+      uses: actions/upload-artifact@v4
+      with:
+        name: rom.bin
+        path: out/rom.bin
+        if-no-files-found: error
+

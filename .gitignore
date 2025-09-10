@@ -1,0 +1,3 @@
+out/
+res/*.h
+src/boot/sega.s
