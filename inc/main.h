@@ -1,3 +1,3 @@
 #pragma once
 
-int main(bool hardReset)
+int main(bool hardReset);
